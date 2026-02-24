@@ -1,0 +1,84 @@
+# ------------------------------------------------------------
+# Python
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# Type checkers / linters
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+.profile_default/
+.ipython/
+
+# OS junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ------------------------------------------------------------
+# JetBrains / PyCharm
+# ------------------------------------------------------------
+.idea
+*.iml
+
+# Local history / caches (rare but safe)
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/shelf/
+.idea/**/httpRequests/
+
+# ------------------------------------------------------------
+# Project-specific: downloaded data + generated outputs
+# (Your script can download/extract these into ./data)
+# ------------------------------------------------------------
+data/
+
+# Downloaded sample images (reproducible downloads; binary)
+data/*.jpg
+data/*.jpeg
+data/*.png
+
+# If you ever create extra artifacts in data/
+data/*.pt
+data/*.onnx
+data/*.weights
+data/*.cfg
+data/*.names
+
+# ------------------------------------------------------------
+# Logs / temp
+# ------------------------------------------------------------
+*.log
+tmp/
+temp/
