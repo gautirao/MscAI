@@ -175,6 +175,52 @@ class YOLO:
 
         return out
 
+    def run_webcam(
+        self,
+        camera_index: int = 0,
+        width: int | None = None,
+        height: int | None = None,
+    ) -> None:
+        cap = cv2.VideoCapture(camera_index)
+
+        if not cap.isOpened():
+            raise RuntimeError("Could not open webcam")
+
+        # Optional: force resolution
+        if width is not None:
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        if height is not None:
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+
+        print("[INFO] Press 'q' to quit")
+
+        while True:
+            ret, frame = cap.read()
+            if not ret:
+                break
+
+            start = time.time()
+            output = self.detect(frame)
+            fps = 1.0 / max(time.time() - start, 1e-6)
+
+            cv2.putText(
+                output,
+                f"FPS: {fps:.2f}",
+                (10, 30),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.8,
+                (0, 255, 0),
+                2,
+            )
+
+            cv2.imshow("YOLO Webcam Detection", output)
+
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+
 
 def prepare_data(data_dir: Path) -> tuple[Path, dict[str, Path]]:
     ensure_dir(data_dir)
@@ -215,6 +261,11 @@ def main() -> int:
         action="store_true",
         help="Run the confidence/threshold grid experiment on baggage_claim.jpg",
     )
+    parser.add_argument(
+        "--webcam",
+        action="store_true",
+        help="Run live webcam object detection",
+    )
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parent
@@ -244,6 +295,15 @@ def main() -> int:
     else:
         # Simple run on all three images with the provided parameters
         yolo = YOLO(yolo_dir, args.confidence, args.threshold)
+
+        if args.webcam:
+            yolo.run_webcam(
+                camera_index=0,
+                width=640,
+                height=480,
+            )
+            return 0
+
         for name, path in image_paths.items():
             img = cv2.imread(str(path))
             if img is None:
