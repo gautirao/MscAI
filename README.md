@@ -1,5 +1,4 @@
-```markdown
-# MscAI
+# Image Object Detection
 
 This project runs **YOLOv3 (COCO)** object detection locally using **OpenCV’s DNN** module. The script will:
 
